@@ -1,0 +1,165 @@
+Detailed Interactions
+1. Admin
+To User Management:
+
+Line: "Manage Users"
+What It Does: Adds, updates, or removes user accounts.
+Impact: Updates the Users Data store with the latest user details.
+To Booking Management:
+
+Line: "Monitor Bookings"
+What It Does: Monitors booking statuses and resolves client-related issues.
+Impact: Updates or retrieves data from the Booking Data store.
+To Schedule & Route Planning:
+
+Line: "Assign Resources"
+What It Does: Assigns drivers and vehicles to specific routes or bookings.
+Impact: Updates the Drivers Data and Vehicles Data stores, as well as the Routes Data store.
+To Notifications:
+
+Line: "Send Alerts"
+What It Does: Sends alerts about system updates or changes in assignments.
+Impact: Notifications are delivered to clients or drivers.
+2. Clients
+To Booking Management:
+
+Line: "Submit Booking Requests"
+What It Does: Places shipment requests by specifying shipment details like origin, destination, and package type.
+Impact: Saves booking details in the Booking Data store.
+From Shipment Tracking:
+
+Line: "View Shipment Status"
+What It Does: Allows clients to track real-time shipment status (e.g., in transit, delivered).
+Impact: Pulls location data from the Locations Data and shipment details from the Shipments Data store.
+From Notifications:
+
+Line: "Receive Notifications"
+What It Does: Sends shipment updates, booking confirmations, or cancellations to clients.
+Impact: Ensures clients are informed about changes in their booking or shipment status.
+3. Drivers
+To Schedule & Route Planning:
+
+Line: "View Assigned Schedule"
+What It Does: Receives details about assigned deliveries, routes, and schedules.
+Impact: Retrieves information from the Routes Data and Drivers Data stores.
+To Shipment Tracking:
+
+Line: "Update Shipment Progress"
+What It Does: Updates the status of shipments (e.g., picked up, in transit, delivered).
+Impact: Updates the Shipments Data and Locations Data stores.
+From Notifications:
+
+Line: "Receive Notifications"
+What It Does: Alerts drivers about changes to their schedules, routes, or assignments.
+Impact: Ensures drivers stay updated on system or shipment changes.
+4. Google Maps API
+To Schedule & Route Planning:
+
+Line: "Provide Route Data"
+What It Does: Supplies optimized routes and travel times for deliveries.
+Impact: Updates the Routes Data store with planned delivery routes.
+From Shipment Tracking:
+
+Line: "Receive Location Updates"
+What It Does: Accepts real-time shipment locations for map visualization.
+Impact: Ensures accurate tracking information for display to clients and admins.
+
+----------------------
+
+General Rules for Placing Data Stores
+Proximity to Processes:
+
+Place data stores near the processes they interact with the most.
+Draw connections (arrows) from the processes to the data stores they read from or write to.
+Avoid Overcrowding:
+
+Space out the data stores to avoid overlapping connections, ensuring the diagram remains readable.
+Logical Flow:
+
+Position data stores between processes that act as intermediaries (e.g., Booking Management between Clients and Notifications).
+Where to Place Specific Data Stores
+1. Users Data
+Purpose: Stores all user information (e.g., Admins, Clients, Drivers).
+Connected Processes:
+User Management: Reads from and writes to Users Data for user creation, updates, and deletions.
+Placement:
+Place Users Data near the User Management process, as it is exclusively used there.
+2. Booking Data
+Purpose: Stores booking records, including client details, shipment info, and booking status.
+Connected Processes:
+Booking Management: Writes booking details to Booking Data.
+Notifications: Reads booking information to send updates.
+Placement:
+Position Booking Data between Booking Management and Notifications.
+3. Shipments Data
+Purpose: Stores details of ongoing and completed shipments, including their statuses.
+Connected Processes:
+Shipment Tracking: Reads from and writes to Shipments Data (e.g., updates shipment progress).
+Notifications: Reads shipment status to notify clients and admins.
+Placement:
+Place Shipments Data close to Shipment Tracking and Notifications.
+4. Drivers Data
+Purpose: Stores information about drivers, including their assignments and availability.
+Connected Processes:
+Schedule & Route Planning: Reads driver availability and writes assignments.
+Placement:
+Position Drivers Data near Schedule & Route Planning.
+5. Vehicles Data
+Purpose: Stores vehicle details, including their capacity, type, and status.
+Connected Processes:
+Schedule & Route Planning: Reads vehicle availability and writes updates (e.g., assigned or under maintenance).
+Placement:
+Place Vehicles Data near Schedule & Route Planning, alongside Drivers Data.
+6. Routes Data
+Purpose: Stores optimized delivery routes and schedules.
+Connected Processes:
+Schedule & Route Planning: Writes planned routes and schedules.
+Shipment Tracking: Reads routes to track shipment progress.
+Placement:
+Position Routes Data near Schedule & Route Planning, with a connection to Shipment Tracking.
+7. Locations Data
+Purpose: Stores real-time GPS updates for shipments.
+Connected Processes:
+Shipment Tracking: Reads real-time location data for tracking shipments.
+Google Maps API: Sends location updates for visualization.
+Placement:
+Place Locations Data near Shipment Tracking, with a connection to Google Maps API.
+Suggested Diagram Layout
+Here’s how you can arrange the data stores:
+
+Top or Left Section (User-Related):
+
+Place Users Data near User Management.
+Central Section (Core Processes):
+
+Place Booking Data between Booking Management and Notifications.
+Place Routes Data and Vehicles Data near Schedule & Route Planning.
+Place Shipments Data near Shipment Tracking.
+Bottom or Right Section (Real-Time Tracking):
+
+Place Locations Data near Shipment Tracking, with connections to Google Maps API.
+Visual Representation Example
+Entities and Processes
+Top Left: Admins, Clients, Drivers.
+Top Right: Google Maps API.
+Center: Core processes (User Management, Booking Management, etc.).
+Data Stores
+Near Core Processes:
+Users Data (User Management).
+Booking Data (Booking Management, Notifications).
+Routes Data, Vehicles Data (Schedule & Route Planning).
+Shipments Data (Shipment Tracking).
+Bottom or Right Edge:
+Locations Data (Shipment Tracking, Google Maps API).
+
+
+Data Store	Processes Connected				Example Data Flows
+Users Data	User Management					"Add/Update/Delete User Details"
+Booking Data	Booking Management, Notifications		"Store/Retrieve Booking Records"
+Drivers Data	Schedule & Route Planning			"Assign/Retrieve Driver Availability"
+Vehicles Data	Schedule & Route Planning			"Assign/Retrieve Vehicle Status"
+Routes Data	Schedule & Route Planning, Shipment Tracking	"Store/Retrieve Optimized Routes"
+Shipments Data	Shipment Tracking, Notifications		"Update/Retrieve Shipment Details"
+Locations Data	Shipment Tracking, Google Maps API		"Store/Retrieve Real-Time Locations"
+
+

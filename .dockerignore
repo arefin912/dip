@@ -1,0 +1,11 @@
+.git
+.gitignore
+.DS_Store
+node_modules/
+vendor/
+.env
+*.log
+*.sql
+*.bak
+*.swp
+uploads/
