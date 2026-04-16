@@ -1,7 +1,14 @@
 <?php
 require_once('vendor/autoload.php'); // Path to your autoloader
+include 'includes/db_config.php';
 
-\Stripe\Stripe::setApiKey('sk_test_51QVdj1G71oah2ZYt1j1eIVUZKCzqpQ1ETtAfGYtBmtwZMRoezylcrmCyBWjsTJNfwUCIIa1gR8gkUNu3UUJrA2J100OyaHK0J7'); // Your TEST secret key
+$stripeSecretKey = getenv('STRIPE_SECRET_KEY');
+if (!$stripeSecretKey) {
+    echo json_encode(['success' => false, 'error' => 'Stripe secret key is not configured.']);
+    exit;
+}
+
+\Stripe\Stripe::setApiKey($stripeSecretKey);
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -19,8 +26,6 @@ if ($data && isset($data['amount'], $data['shipmentId'])) {
         ]);
 
 
-        include 'includes/db_config.php'; //Include your database connection
-        $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
         $sql = "INSERT INTO payments (shipment_id, amount, method, transaction_id) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("idss", $shipmentId, $amount, 'stripe', $paymentIntent->id);

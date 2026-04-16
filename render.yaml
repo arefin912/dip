@@ -15,3 +15,7 @@ services:
         value: ""
       - key: DB_NAME
         value: tms_database
+      - key: STRIPE_SECRET_KEY
+        value: ""
+      - key: STRIPE_PUBLISHABLE_KEY
+        value: ""

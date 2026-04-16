@@ -162,7 +162,7 @@ try {
     </div>
 
     <script>
-        const stripe = Stripe('pk_test_51QVdj1G71oah2ZYtX019tWel9nx7Rw9JgYiEk7IdliYKVbLrPJ7DtwmjUIYeICUcuFC3ppAwic8knqv5vnbnjXYg00ubqLPFkG');
+        const stripe = Stripe('<?php echo getenv('STRIPE_PUBLISHABLE_KEY') ?: 'pk_test_replace_with_your_key'; ?>');
 
         <?php
         $jsCode = "";

@@ -1,4 +1,38 @@
 <?php
+function loadEnvFile($filePath) {
+    if (!file_exists($filePath)) {
+        return;
+    }
+
+    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#') {
+            continue;
+        }
+
+        if (!preg_match('/^([A-Za-z0-9_]+)\s*=\s*(.*)$/', $line, $matches)) {
+            continue;
+        }
+
+        $key = $matches[1];
+        $value = $matches[2];
+
+        if ((strlen($value) >= 2 && $value[0] === '"' && substr($value, -1) === '"') ||
+            (strlen($value) >= 2 && $value[0] === "'" && substr($value, -1) === "'")) {
+            $value = substr($value, 1, -1);
+        }
+
+        if (getenv($key) === false) {
+            putenv("$key=$value");
+            $_ENV[$key] = $value;
+            $_SERVER[$key] = $value;
+        }
+    }
+}
+
+loadEnvFile(__DIR__ . '/../.env');
+
 $db_host = getenv('DB_HOST') ?: 'localhost';
 $db_user = getenv('DB_USER') ?: 'root';
 $db_pass = getenv('DB_PASS') ?: '';
